@@ -14,7 +14,7 @@ if($result = $conn->query($sql)){
                     echo "<td>" . $row['id'] . "</td>";
                     echo "<td>" . $row['name'] . "</td>";
                     echo "<td>" . $row['email'] . "</td>";
-                    echo "<td><a href='update.php?id=" . $row['id'] . "'>Edit</a></td>"; // Placeholder for future CRUD links
+                    echo "<td><a href='update.php?id=" . $row['id'] . "'>Edit</a> | <a href='delete.php?id=" . $row['id'] . "'>Delete</a></td>"; // Placeholder for future CRUD links
                 echo "</tr>";
             }
             echo "</tbody>";
