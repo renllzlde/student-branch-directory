@@ -4,17 +4,18 @@ require_once 'db_connect.php';
 $id = $name = $email = "";
 $name_err = $email_err = "";
 
-// 1. Processing form submission (POST request)
+
 if(isset($_POST["id"]) && !empty($_POST["id"])){
     $id = $_POST["id"];
 
-    // Input Validation (Similar to create.php)
+    
     if(empty(trim($_POST["name"]))){ $name_err = "Please enter a name."; } else{ $name = trim($_POST["name"]); }
     if(empty(trim($_POST["email"]))){ $email_err = "Please enter an email."; } else{ $email = trim($_POST["email"]); }
 
-    // Check input errors before updating
+    
     if(empty($name_err) && empty($email_err)){
-        // Prepare an UPDATE statement
+        
+        
         $sql = "UPDATE students SET name=?, email=? WHERE id=?";
 
         if($stmt = $conn->prepare($sql)){
@@ -25,7 +26,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
             $param_id = $id;
 
             if($stmt->execute()){
-                // Success! Redirect to the read page
+                
                 header("location: read.php");
                 exit();
             } else{
@@ -36,11 +37,11 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     }
     $conn->close();
 
-// 2. Processing URL parameter for displaying current data (GET request)
+    
 } elseif(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     $id = trim($_GET["id"]);
 
-    // Prepare a SELECT statement
+    
     $sql = "SELECT * FROM students WHERE id = ?";
     if($stmt = $conn->prepare($sql)){
         $stmt->bind_param("i", $param_id);
@@ -49,12 +50,12 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         if($stmt->execute()){
             $result = $stmt->get_result();
             if($result->num_rows == 1){
-                // Fetch result row as an associative array
+                
                 $row = $result->fetch_assoc();
                 $name = $row["name"];
                 $email = $row["email"];
             } else{
-                // URL doesn't contain valid id.
+                
                 echo "Error: Record not found.";
                 exit();
             }
@@ -65,7 +66,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     }
     $conn->close();
 } else{
-    // If ID parameter is missing, redirect to read page
+    
     header("location: read.php");
     exit();
 }
